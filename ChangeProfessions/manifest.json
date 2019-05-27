@@ -1,0 +1,10 @@
+{
+  "Name": "ChangeProfessions",
+  "Author": "Alek",
+  "Version": "1.0.0",
+  "Description": "Click on a profession to change it.",
+  "UniqueID": "Alek.ChangeProfessions",
+  "EntryDll": "ChangeProfessions.dll",
+  "MinimumApiVersion": "2.10.0",
+  "UpdateKeys": []
+}
