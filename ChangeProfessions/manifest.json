@@ -1,7 +1,7 @@
 {
   "Name": "ChangeProfessions",
   "Author": "Alek",
-  "Version": "1.0.1",
+  "Version": "1.0.2",
   "Description": "Click on a profession to change it.",
   "UniqueID": "Alek.ChangeProfessions",
   "EntryDll": "ChangeProfessions.dll",

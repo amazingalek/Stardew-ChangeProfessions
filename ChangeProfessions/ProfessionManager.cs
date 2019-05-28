@@ -26,30 +26,44 @@ namespace ChangeProfessions
 
             if (!isPrimaryProfession) return;
 
-            ResetSecondaryProfession(fromProfessionId, toProfessionId);
+            RemoveOldSecondaryProfession(fromProfessionId);
+
+            if (ShouldHaveSecondaryProfession(fromProfessionId))
+            {
+                AddNewSecondaryProfession(toProfessionId);
+            }
         }
 
-        private void ResetSecondaryProfession(int fromProfessionId, int toProfessionId)
+        private void RemoveOldSecondaryProfession(int primaryId)
         {
-            var oldSecondarySet = GetSecondarySetByPrimaryId(fromProfessionId);
-            var existingSecondaryIds = oldSecondarySet.Ids.Where(HasProfession).ToList();
+            var oldSecondarySet = GetSecondarySetByPrimaryId(primaryId);
+            oldSecondarySet.Ids.ForEach(RemoveProfession);
+        }
 
-            if (!existingSecondaryIds.Any()) return;
-
-            existingSecondaryIds.ForEach(RemoveProfession);
-
-            var newSecondarySet = GetSecondarySetByPrimaryId(toProfessionId);
+        private void AddNewSecondaryProfession(int primaryId)
+        {
+            var newSecondarySet = GetSecondarySetByPrimaryId(primaryId);
             AddProfession(newSecondarySet.Ids.First());
+        }
+
+        private bool ShouldHaveSecondaryProfession(int professionId)
+        {
+            var skillLevel = GetSkillLevel(professionId);
+            return skillLevel == 10;
+        }
+
+        private int GetSkillLevel(int professionId)
+        {
+            if (professionId <= 5) return Game1.player.FarmingLevel;
+            if (professionId <= 11) return Game1.player.FishingLevel;
+            if (professionId <= 17) return Game1.player.ForagingLevel;
+            if (professionId <= 23) return Game1.player.MiningLevel;
+            return Game1.player.CombatLevel;
         }
 
         private ProfessionSet GetSecondarySetByPrimaryId(int primaryId)
         {
             return _professionSets.Single(x => x.ParentId == primaryId);
-        }
-
-        private bool HasProfession(int professionId)
-        {
-            return Game1.player.professions.Contains(professionId);
         }
 
         private void AddProfession(int professionId)
