@@ -11,7 +11,7 @@ namespace ChangeProfessions
 
         public ProfessionManager(IModHelper modHelper)
         {
-            _professionSets = modHelper.ReadConfig<Config>().ProfessionSets;
+            _professionSets = modHelper.Data.ReadJsonFile<Data>("data.json").ProfessionSets;
         }
 
         public ProfessionSet GetProfessionSetById(int professionId)
@@ -54,11 +54,13 @@ namespace ChangeProfessions
 
         private int GetSkillLevel(int professionId)
         {
+            if (professionId < 0) return 0;
             if (professionId <= 5) return Game1.player.FarmingLevel;
             if (professionId <= 11) return Game1.player.FishingLevel;
             if (professionId <= 17) return Game1.player.ForagingLevel;
             if (professionId <= 23) return Game1.player.MiningLevel;
-            return Game1.player.CombatLevel;
+            if (professionId <= 29) return Game1.player.CombatLevel;
+            return 0;
         }
 
         private ProfessionSet GetSecondarySetByPrimaryId(int primaryId)

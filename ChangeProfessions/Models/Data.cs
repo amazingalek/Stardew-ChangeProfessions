@@ -2,7 +2,7 @@
 
 namespace ChangeProfessions
 {
-    public class Config
+    public class Data
     {
         public List<ProfessionSet> ProfessionSets { get; set; }
     }

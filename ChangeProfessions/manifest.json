@@ -1,10 +1,10 @@
 {
-  "Name": "ChangeProfessions",
+  "Name": "Change Professions",
   "Author": "Alek",
-  "Version": "1.0.2",
+  "Version": "1.0.3",
   "Description": "Click on a profession to change it.",
   "UniqueID": "Alek.ChangeProfessions",
   "EntryDll": "ChangeProfessions.dll",
   "MinimumApiVersion": "2.10.0",
-  "UpdateKeys": []
+  "UpdateKeys": [ "Nexus:3989" ]
 }

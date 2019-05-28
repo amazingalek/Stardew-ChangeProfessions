@@ -44,14 +44,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ChangeProfessionsMod.cs" />
-    <Compile Include="Models\Config.cs" />
+    <Compile Include="Models\Data.cs" />
     <Compile Include="Models\ProfessionSet.cs" />
     <Compile Include="ProfessionChooserMenu.cs" />
     <Compile Include="ProfessionManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="config.json">
+    <None Include="data.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="manifest.json" />
