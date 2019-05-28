@@ -22,6 +22,8 @@ namespace ChangeProfessions
         private Color _rightProfessionColor = Game1.textColor;
         private List<string> _leftProfessionDescription = new List<string>();
         private List<string> _rightProfessionDescription = new List<string>();
+        public ClickableComponent LeftProfession;
+        public ClickableComponent RightProfession;
 
         public ProfessionChooserMenu(IModHelper modHelper, int[] professionIds)
             : base(Game1.viewport.Width / 2 - 384, Game1.viewport.Height / 2 - 256, 768, 512)
@@ -34,7 +36,7 @@ namespace ChangeProfessions
 
         private void InputOnButtonReleased(object sender, ButtonReleasedEventArgs e)
         {
-            if (e.Button != SButton.MouseLeft)
+            if (!IsCorrectButton(e.Button))
                 return;
 
             var chosenProfession = GetChosenProfession();
@@ -46,6 +48,11 @@ namespace ChangeProfessions
             OnChangedProfession?.Invoke(chosenProfession.Value);
 
             ReturnToSkillsPage();
+        }
+
+        private bool IsCorrectButton(SButton button)
+        {
+            return button == SButton.MouseLeft || button == SButton.ControllerA;
         }
 
         private void ReturnToSkillsPage()
@@ -82,6 +89,22 @@ namespace ChangeProfessions
             Game1.player.completelyStopAnimatingOrDoingAction();
             Game1.player.freezePause = 100;
             height = 512;
+            if (!Game1.options.SnappyMenus)
+                return;
+            var mouseHeight = (int)(height / 1.5);
+            LeftProfession = new ClickableComponent(new Rectangle(xPositionOnScreen, yPositionOnScreen + 128, width / 2, mouseHeight), "")
+            {
+                myID = 102,
+                rightNeighborID = 103
+            };
+            RightProfession = new ClickableComponent(new Rectangle(width / 2 + xPositionOnScreen, yPositionOnScreen + 128, width / 2, mouseHeight), "")
+            {
+                myID = 103,
+                leftNeighborID = 102
+            };
+            populateClickableComponentList();
+            currentlySnappedComponent = LeftProfession;
+            snapCursorToCurrentSnappedComponent();
         }
 
         public override void draw(SpriteBatch b)

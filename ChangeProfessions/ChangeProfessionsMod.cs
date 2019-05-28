@@ -25,7 +25,7 @@ namespace ChangeProfessions
             if (!Context.IsWorldReady)
                 return;
 
-            if (e.Button != SButton.MouseLeft)
+            if (!IsCorrectButton(e.Button))
                 return;
 
             var clickedProfessionBar = GetClickedProfessionBar(e);
@@ -36,6 +36,11 @@ namespace ChangeProfessions
             var professionSet = _professionManager.GetProfessionSetById(professionId);
 
             ShowProfessionChooserMenu(professionId, professionSet);
+        }
+
+        private bool IsCorrectButton(SButton button)
+        {
+            return button == SButton.MouseLeft || button == SButton.ControllerA;
         }
 
         private ClickableTextureComponent GetClickedProfessionBar(ButtonReleasedEventArgs e)
