@@ -26,25 +26,30 @@ namespace ChangeProfessions
 
             if (!isPrimaryProfession) return;
 
-            RemoveOldSecondaryProfession(fromProfessionId);
-            AddNewSecondaryProfession(toProfessionId);
+            ResetSecondaryProfession(fromProfessionId, toProfessionId);
         }
 
-        private void RemoveOldSecondaryProfession(int primaryId)
+        private void ResetSecondaryProfession(int fromProfessionId, int toProfessionId)
         {
-            var oldSecondarySet = GetSecondarySetByPrimaryId(primaryId);
-            oldSecondarySet.Ids.ForEach(RemoveProfession);
-        }
+            var oldSecondarySet = GetSecondarySetByPrimaryId(fromProfessionId);
+            var existingSecondaryIds = oldSecondarySet.Ids.Where(HasProfession).ToList();
 
-        private void AddNewSecondaryProfession(int primaryId)
-        {
-            var newSecondarySet = GetSecondarySetByPrimaryId(primaryId);
+            if (!existingSecondaryIds.Any()) return;
+
+            existingSecondaryIds.ForEach(RemoveProfession);
+
+            var newSecondarySet = GetSecondarySetByPrimaryId(toProfessionId);
             AddProfession(newSecondarySet.Ids.First());
         }
 
         private ProfessionSet GetSecondarySetByPrimaryId(int primaryId)
         {
             return _professionSets.Single(x => x.ParentId == primaryId);
+        }
+
+        private bool HasProfession(int professionId)
+        {
+            return Game1.player.professions.Contains(professionId);
         }
 
         private void AddProfession(int professionId)
