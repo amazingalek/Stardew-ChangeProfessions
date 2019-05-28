@@ -1,4 +1,4 @@
-# stardew-changeprofessions
+# Stardew-ChangeProfessions
 
 Click on a profession on the skill page to be able to choose again.
 
