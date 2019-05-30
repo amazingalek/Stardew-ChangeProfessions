@@ -1,6 +1,6 @@
 # Stardew-ChangeProfessions
 
-This mod makes it easy to change professions. Clicking on a profession on the skill page opens the level up menu where you chose the profession initially, giving you the ability to choose again.
+This mod makes it easy to change professions. Clicking on a profession on the skill page re-opens the level up menu, giving you the ability to choose again.
 
 This encourages experimentation and removes punishment for making uninformed choices.
 
