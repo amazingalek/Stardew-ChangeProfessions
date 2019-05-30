@@ -38,14 +38,18 @@ namespace ChangeProfessions
 
         private void InputOnButtonReleased(object sender, ButtonReleasedEventArgs e)
         {
-            if (!IsCorrectButton(e.Button))
+            if (IsCloseButton(e.Button))
+            {
+                ReturnToSkillsPage();
+                return;
+            }
+
+            if (!IsAcceptButton(e.Button))
                 return;
 
             var chosenProfessionId = GetChosenProfession();
             if (chosenProfessionId == null)
                 return;
-
-            _modHelper.Events.Input.ButtonReleased -= InputOnButtonReleased;
 
             if (chosenProfessionId != _oldProfessionId)
             {
@@ -55,14 +59,19 @@ namespace ChangeProfessions
             ReturnToSkillsPage();
         }
 
-        private bool IsCorrectButton(SButton button)
+        private bool IsAcceptButton(SButton button)
         {
             return button == SButton.MouseLeft || button == SButton.ControllerA;
         }
 
+        private bool IsCloseButton(SButton button)
+        {
+            return button == SButton.Escape || button == SButton.ControllerB;
+        }
+
         private void ReturnToSkillsPage()
         {
-            exitThisMenu();
+            _modHelper.Events.Input.ButtonReleased -= InputOnButtonReleased;
             var mainMenu = new GameMenu();
             mainMenu.changeTab(1);
             Game1.activeClickableMenu = mainMenu;

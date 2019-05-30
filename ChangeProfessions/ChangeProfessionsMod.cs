@@ -26,7 +26,7 @@ namespace ChangeProfessions
             if (!Context.IsWorldReady)
                 return;
 
-            if (!IsCorrectButton(e.Button))
+            if (!IsAcceptButton(e.Button))
                 return;
 
             var clickedProfessionBar = GetClickedProfessionBar(e);
@@ -38,7 +38,7 @@ namespace ChangeProfessions
             ShowProfessionChooserMenu(clickedProfessionId);
         }
 
-        private bool IsCorrectButton(SButton button)
+        private bool IsAcceptButton(SButton button)
         {
             return button == SButton.MouseLeft || button == SButton.ControllerA;
         }
