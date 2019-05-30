@@ -1,7 +1,9 @@
-# stardew-changeprofessions
+# Stardew-ChangeProfessions
 
-Click on a profession on the skill page to be able to choose again.
+This mod makes it easy to change professions. Clicking on a profession on the skill page opens the level up menu where you chose the profession initially, giving you the ability to choose again.
 
-Note: changing a primary profession (level 5) will reset its secondary profession (level 10).
+This encourages experimentation and removes punishment for making uninformed choices.
+
+Keep in mind that the secondary profession (level 10) of a skill is based on which primary profession (level 5) you picked. Changing a primary profession will therefore also change the secondary profession.
 
 Nexus: https://www.nexusmods.com/stardewvalley/mods/3989/
