@@ -14,39 +14,45 @@ namespace ChangeProfessions
             _professionSets = modHelper.Data.ReadJsonFile<Data>("data.json").ProfessionSets;
         }
 
-        public ProfessionSet GetProfessionSetById(int professionId)
+        public ProfessionSet GetProfessionSet(int professionId)
         {
             return _professionSets.Single(x => x.Ids.Contains(professionId));
         }
 
-        public void ChangeProfession(int fromProfessionId, int toProfessionId, bool isPrimaryProfession)
+        public void ChangeProfession(int fromProfessionId, int toProfessionId)
         {
             RemoveProfession(fromProfessionId);
             AddProfession(toProfessionId);
 
-            if (!isPrimaryProfession) return;
+            if (!IsPrimaryProfession(fromProfessionId))
+                return;
 
-            RemoveOldSecondaryProfession(fromProfessionId);
+            RemoveSecondaryProfessions(fromProfessionId);
 
-            if (ShouldHaveSecondaryProfession(fromProfessionId))
+            if (HasUnlockedSecondaryProfession(fromProfessionId))
             {
-                AddNewSecondaryProfession(toProfessionId);
+                AddSecondaryProfession(toProfessionId);
             }
         }
 
-        private void RemoveOldSecondaryProfession(int primaryId)
+        private bool IsPrimaryProfession(int professionId)
         {
-            var oldSecondarySet = GetSecondarySetByPrimaryId(primaryId);
-            oldSecondarySet.Ids.ForEach(RemoveProfession);
+            return GetProfessionSet(professionId).IsPrimaryProfession;
         }
 
-        private void AddNewSecondaryProfession(int primaryId)
+        private void RemoveSecondaryProfessions(int primaryId)
         {
-            var newSecondarySet = GetSecondarySetByPrimaryId(primaryId);
+            var oldSecondarySet = GetSecondaryProfessionSet(primaryId);
+            oldSecondarySet.Ids.ToList().ForEach(RemoveProfession);
+        }
+
+        private void AddSecondaryProfession(int primaryId)
+        {
+            var newSecondarySet = GetSecondaryProfessionSet(primaryId);
             AddProfession(newSecondarySet.Ids.First());
         }
 
-        private bool ShouldHaveSecondaryProfession(int professionId)
+        private bool HasUnlockedSecondaryProfession(int professionId)
         {
             var skillLevel = GetSkillLevel(professionId);
             return skillLevel == 10;
@@ -63,7 +69,7 @@ namespace ChangeProfessions
             return 0;
         }
 
-        private ProfessionSet GetSecondarySetByPrimaryId(int primaryId)
+        private ProfessionSet GetSecondaryProfessionSet(int primaryId)
         {
             return _professionSets.Single(x => x.ParentId == primaryId);
         }

@@ -16,6 +16,7 @@ namespace ChangeProfessions
         public event Action<int> OnChangedProfession;
 
         private readonly IModHelper _modHelper;
+        private readonly int _oldProfessionId;
         private readonly int[] _professionsToChoose;
 
         private Color _leftProfessionColor = Game1.textColor;
@@ -25,11 +26,12 @@ namespace ChangeProfessions
         public ClickableComponent LeftProfession;
         public ClickableComponent RightProfession;
 
-        public ProfessionChooserMenu(IModHelper modHelper, int[] professionIds)
+        public ProfessionChooserMenu(IModHelper modHelper, int oldProfessionId, int[] professionIdsToChoose)
             : base(Game1.viewport.Width / 2 - 384, Game1.viewport.Height / 2 - 256, 768, 512)
         {
             _modHelper = modHelper;
-            _professionsToChoose = professionIds;
+            _oldProfessionId = oldProfessionId;
+            _professionsToChoose = professionIdsToChoose;
             InitMenu();
             modHelper.Events.Input.ButtonReleased += InputOnButtonReleased;
         }
@@ -39,13 +41,16 @@ namespace ChangeProfessions
             if (!IsCorrectButton(e.Button))
                 return;
 
-            var chosenProfession = GetChosenProfession();
-            if (chosenProfession == null)
+            var chosenProfessionId = GetChosenProfession();
+            if (chosenProfessionId == null)
                 return;
 
             _modHelper.Events.Input.ButtonReleased -= InputOnButtonReleased;
 
-            OnChangedProfession?.Invoke(chosenProfession.Value);
+            if (chosenProfessionId != _oldProfessionId)
+            {
+                OnChangedProfession?.Invoke(chosenProfessionId.Value);
+            }
 
             ReturnToSkillsPage();
         }
@@ -84,8 +89,8 @@ namespace ChangeProfessions
         {
             _leftProfessionDescription = LevelUpMenu.getProfessionDescription(_professionsToChoose[0]);
             _rightProfessionDescription = LevelUpMenu.getProfessionDescription(_professionsToChoose[1]);
-            _leftProfessionColor = Game1.textColor;
-            _rightProfessionColor = Game1.textColor;
+            _leftProfessionColor = _oldProfessionId == _professionsToChoose[0] ? Color.Green : Game1.textColor;
+            _rightProfessionColor = _oldProfessionId == _professionsToChoose[1] ? Color.Green : Game1.textColor;
             Game1.player.completelyStopAnimatingOrDoingAction();
             Game1.player.freezePause = 100;
             height = 512;

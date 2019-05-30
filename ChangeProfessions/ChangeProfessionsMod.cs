@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Xna.Framework;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
@@ -32,10 +33,9 @@ namespace ChangeProfessions
             if (clickedProfessionBar == null)
                 return;
 
-            var professionId = Convert.ToInt32(clickedProfessionBar.name);
-            var professionSet = _professionManager.GetProfessionSetById(professionId);
+            var clickedProfessionId = Convert.ToInt32(clickedProfessionBar.name);
 
-            ShowProfessionChooserMenu(professionId, professionSet);
+            ShowProfessionChooserMenu(clickedProfessionId);
         }
 
         private bool IsCorrectButton(SButton button)
@@ -46,17 +46,17 @@ namespace ChangeProfessions
         private ClickableTextureComponent GetClickedProfessionBar(ButtonReleasedEventArgs e)
         {
             var skillsPage = GetSkillsPage();
-            return skillsPage == null ? null : GetProfessionBar(skillsPage, e.Cursor);
+            return skillsPage == null ? null : GetActiveProfessionBarAtPosition(skillsPage, e.Cursor.ScreenPixels);
         }
 
-        private void ShowProfessionChooserMenu(int professionId, ProfessionSet professionSet)
+        private void ShowProfessionChooserMenu(int professionId)
         {
-            var professionChooserMenu = new ProfessionChooserMenu(_modHelper, professionSet.Ids.ToArray());
+            var professionIdsToChoose = _professionManager.GetProfessionSet(professionId).Ids;
+            var professionChooserMenu = new ProfessionChooserMenu(_modHelper, professionId, professionIdsToChoose);
 
             professionChooserMenu.OnChangedProfession += newProfessionId =>
             {
-                if (newProfessionId == professionId) return;
-                _professionManager.ChangeProfession(professionId, newProfessionId, professionSet.IsPrimaryProfession);
+                _professionManager.ChangeProfession(professionId, newProfessionId);
             };
 
             Game1.activeClickableMenu = professionChooserMenu;
@@ -71,11 +71,9 @@ namespace ChangeProfessions
             return page as SkillsPage;
         }
 
-        private ClickableTextureComponent GetProfessionBar(SkillsPage skillPage, ICursorPosition cursor)
+        private ClickableTextureComponent GetActiveProfessionBarAtPosition(SkillsPage skillPage, Vector2 position)
         {
-            var x = (int)cursor.ScreenPixels.X;
-            var y = (int)cursor.ScreenPixels.Y;
-            return skillPage.skillBars.FirstOrDefault(skillBar => skillBar.containsPoint(x, y) &&
+            return skillPage.skillBars.FirstOrDefault(skillBar => skillBar.containsPoint((int)position.X, (int)position.Y) &&
                                                                   skillBar.hoverText.Length > 0 &&
                                                                   skillBar.name != "-1");
         }
