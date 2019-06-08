@@ -46,7 +46,9 @@ namespace ChangeProfessions
         private ClickableTextureComponent GetClickedProfessionBar(ButtonReleasedEventArgs e)
         {
             var skillsPage = GetSkillsPage();
-            return skillsPage == null ? null : GetActiveProfessionBarAtPosition(skillsPage, e.Cursor.ScreenPixels);
+            if (skillsPage == null)
+                return null;
+            return GetActiveBarAtPosition(skillsPage, e.Cursor.ScreenPixels);
         }
 
         private void ShowProfessionChooserMenu(int professionId)
@@ -62,18 +64,20 @@ namespace ChangeProfessions
             Game1.activeClickableMenu = professionChooserMenu;
         }
 
-        private SkillsPage GetSkillsPage()
+        private IClickableMenu GetSkillsPage()
         {
             if (!(Game1.activeClickableMenu is GameMenu menu))
                 return null;
             var pages = Helper.Reflection.GetField<List<IClickableMenu>>(menu, "pages").GetValue();
             var page = pages[menu.currentTab];
-            return page as SkillsPage;
+            var pageName = page.GetType().Name;
+            return pageName == nameof(SkillsPage) || pageName == "NewSkillsPage" ? page : null;
         }
 
-        private ClickableTextureComponent GetActiveProfessionBarAtPosition(SkillsPage skillPage, Vector2 position)
+        private ClickableTextureComponent GetActiveBarAtPosition(IClickableMenu skillsPage, Vector2 position)
         {
-            return skillPage.skillBars.FirstOrDefault(skillBar => skillBar.containsPoint((int)position.X, (int)position.Y) &&
+            var skillBars = Helper.Reflection.GetField<List<ClickableTextureComponent>>(skillsPage, "skillBars").GetValue();
+            return skillBars.FirstOrDefault(skillBar => skillBar.containsPoint((int)position.X, (int)position.Y) &&
                                                                   skillBar.hoverText.Length > 0 &&
                                                                   skillBar.name != "-1");
         }
