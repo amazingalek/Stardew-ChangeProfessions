@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI;
@@ -33,7 +32,8 @@ namespace ChangeProfessions
             if (clickedProfessionBar == null)
                 return;
 
-            var clickedProfessionId = Convert.ToInt32(clickedProfessionBar.name);
+            if (!int.TryParse(clickedProfessionBar.name, out var clickedProfessionId))
+                return;
 
             ShowProfessionChooserMenu(clickedProfessionId);
         }
