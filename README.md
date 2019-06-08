@@ -8,4 +8,6 @@ This encourages experimentation and removes punishment for making uninformed cho
 
 Keep in mind that the secondary profession (level 10) of a skill is based on which primary profession (level 5) you picked. Changing a primary profession will therefore also change the secondary profession.
 
+Compatible with Cooking Skill and Luck Skill, but changing those professions isn't yet supported.
+
 Nexus: https://www.nexusmods.com/stardewvalley/mods/3989/
