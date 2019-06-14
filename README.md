@@ -9,10 +9,9 @@ This encourages experimentation and removes punishment for making uninformed cho
 Keep in mind that the secondary profession (level 10) of a skill is based on which primary profession (level 5) you picked. Changing a primary profession will therefore also change the secondary profession.
 
 # Compatibility
-Requires SMAPI.
-
-Supports multiplayer and controllers.
-
-Cooking Skill and Luck Skill: compatible, but changing those professions isn't yet supported.
+* Requires SMAPI.
+* Supports multiplayer and controllers.
+* Harmony is not used.
+* Cooking Skill and Luck Skill: compatible, but changing those professions isn't yet supported.
 
 Nexus: https://www.nexusmods.com/stardewvalley/mods/3989/
