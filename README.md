@@ -2,14 +2,13 @@
 
 This mod makes it easy to change professions in Stardew Valley.
 
-Normally when you mouse over a profession on the skill page you get a small pop-up showing the current profession. With this mod you can click on this profession pop-up to re-open the level-up menu for this profession, giving you the ability to choose again.
+Normally when you mouse over a profession on the skill page you get a small pop-up showing the current profession. With this mod you can click on this profession pop-up to reopen the level up menu for this profession, giving you the ability to choose again.
 
 Keep in mind that the secondary profession (level 10) of a skill is based on which primary profession (level 5) you picked. Changing a primary profession will therefore also change the secondary profession.
 
 # Compatibility
 * Requires [SMAPI](https://smapi.io/).
 * Supports multiplayer and controllers.
-* Cooking Skill and Luck Skill: compatible, but changing those professions isn't yet supported.
-* Harmony is not used.
+* Partially compatible with Cooking Skill and Luck Skill. It works, but changing those professions isn't yet supported.
 
 [Nexus page](https://www.nexusmods.com/stardewvalley/mods/3989/)
